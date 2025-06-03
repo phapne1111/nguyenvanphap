@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thanh Tuyền</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <video autoplay muted loop playsinline id="bgVideo">
+    <source src="background.mp4" type="video/mp4">
+  </video>
+
+  <div id="fps" class="fps-counter">FPS: 0</div>
+  <div class="snow"></div>
+
+  <div class="container">
+    <div class="avatar-frame">
+      <img src="avatar.jpg" alt="avatar" class="avatar">
+      <img src="frame.png" alt="border" class="avatar-border">
+    </div>   
+
+    
+
+    <h1>Thanh Tuyền<span class="verified"></span></h1>
+
+    <div class="social-icons">
+      <a href="https://facebook.com/kk281020" target="_blank" aria-label="Facebook">
+        <i class="fab fa-facebook"></i>
+      </a>
+      <a href="https://instagram.com/_moneii05" target="_blank" aria-label="Instagram">
+        <i class="fab fa-instagram"></i>
+      </a>
+    </div>
+
+    <div class="info">
+      CÔ ẤY KHÔNG GIỎI TOÁN, NHƯNG GIỎI LÀM NGƯỜI TA THÍCH<br>
+      NHÌN NGOÀI CÓ VẺ BẤT CẦN... BÊN TRONG CẦN BẤT KỲ AI DỄ THƯƠNG<br>
+      ĐẸP KHÔNG PHẢI DO CAMERA – MÀ DO TÂM HỒN ĐẦY FILTER<br>
+      ĐI QUA NHAU LÀ DUYÊN – QUAY LẠI LÀ... BỊ DỌA<br>
+      YÊU ĐI, ĐỪNG SỢ – CÔ ẤY CHỈ HƠI ĐIÊN CHỨ KHÔNG CẮN
+    </div>
+    
+
+    <div class="timer">
+      Date created: <span id="timer"></span>
+    </div>
+
+    <div class="music-btn">
+      <select onchange="changeSong(this.value)">
+        <option value="">Play Music</option>
+        <option value="./music/music1.mp3">Để Anh Lương Thiện Remix</option>
+        <option value="./music/music2.mp3">Em Cưới Rồi À Remix</option>
+        <option value="./music/music3.mp3">The History of The Future</option>
+        <option value="./music/music4.mp3">Tháp Rơi Tự Do</option>
+        <option value="./music/music5.mp3">Six UVA V2</option>
+      </select>
+      <audio id="bgMusic" autoplay loop hidden></audio>
+    </div>
+  </div>
+
+  <script>
+    let currentSong = "";
+
+    function updateTimer() {
+  const now = new Date();
+  const day = String(now.getDate()).padStart(2, '0');
+  const month = String(now.getMonth() + 1).padStart(2, '0'); // Tháng bắt đầu từ 0
+  const year = now.getFullYear();
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  const seconds = String(now.getSeconds()).padStart(2, '0');
+
+  document.getElementById("timer").innerText = `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+}
+
+
+    function changeSong(url) {
+      const audio = document.getElementById("bgMusic");
+      if (url !== currentSong) {
+        currentSong = url;
+        audio.src = url;
+        audio.play();
+      }
+    }
+
+    function createSnowflakes() {
+      const snow = document.querySelector('.snow');
+      for (let i = 0; i < 100; i++) {
+        const snowflake = document.createElement('div');
+        snowflake.classList.add('snowflake');
+        snowflake.innerHTML = '.';
+        snowflake.style.left = Math.random() * 100 + 'vw';
+        snowflake.style.animationDuration = (2 + Math.random() * 3) + 's';
+        snowflake.style.opacity = Math.random();
+        snowflake.style.fontSize = (8 + Math.random() * 10) + 'px';
+        snow.appendChild(snowflake);
+      }
+    }
+
+    let lastFrame = performance.now();
+    let frameCount = 0;
+
+    function updateFPS() {
+      const now = performance.now();
+      frameCount++;
+      if (now - lastFrame >= 1000) {
+        document.getElementById("fps").innerText = "FPS: " + frameCount;
+        frameCount = 0;
+        lastFrame = now;
+      }
+      requestAnimationFrame(updateFPS);
+    }
+
+    setInterval(updateTimer, 1000);
+    window.onload = () => {
+      updateTimer();
+      createSnowflakes();
+      updateFPS();
+    };
+  </script>
+</body>
+</html>
